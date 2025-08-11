@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm, FormProvider } from "react-hook-form";
 import { InputTextField } from "../../../components/ui/InputTextField";
 import { InputNumberField } from "../../../components/ui/InputNumberField";
@@ -19,8 +19,10 @@ const RegisterUsuario = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const { min, max } = diasPermitidos(-5000); // Calcula el rango de fechas permitido
+    const { min, max } = diasPermitidos(-5844); // Calcula el rango de fechas permitido
 
+    const tipoLicenciaSeleccionada = methods.watch("tipoLicencia");
+    const numeroDocumento = methods.watch("numeroDocumento");
 
     const onSubmit = async (data) => {
         setLoading(true);
@@ -28,7 +30,7 @@ const RegisterUsuario = () => {
 
         try {
             const res = await registerUser(data); // 1️⃣ Intentar registrar usuario
-console.log(res.data)
+            console.log(res.data)
             if (res.status === 200 && res.data.success) {
                 const idUsuario = res.data.data._id;
 
@@ -88,7 +90,7 @@ console.log(res.data)
                     });
                 }
             }
-            else{
+            else {
                 toast.update(loadingUserToast, {
                     render: res.data.message || "Error al subir documentos❌",
                     type: "error",
@@ -226,15 +228,16 @@ console.log(res.data)
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-5">
                             <div className="border flex flex-col p-2 gap-3 rounded-lg">
                                 <InputFile icon={User} name="documentoDoc" label="Cédula de Ciudadanía" required={true} />
-                                <InputTextField name={`documentoNum`} label="Numero Documento" placeholder="Numero" icon={User} required={true} />
-
+                                <InputTextField name={`documentoNum`} label="Numero Documento" placeholder="Numero" icon={User} required={true} value={numeroDocumento} />
                             </div>
 
-                            <div className="border flex flex-col p-2 gap-3 rounded-lg">
-                                <InputFile icon={User} name="licenciaDoc" label="Licencia de conducir" required={true} />
-                                <InputTextField name={`licenciaNum`} label="Numero Documento" placeholder="Numero" icon={User} required={true} />
-                                <InputDateField name="licenciaDate" icon={User} label="Fecha Expiracion" required={true} min={min} />
-                            </div>
+                            {tipoLicenciaSeleccionada !== "N/A" && (
+                                <div className="border flex flex-col p-2 gap-3 rounded-lg">
+                                    <InputFile icon={User} name="licenciaDoc" label="Licencia de conducir" required />
+                                    <InputTextField name="licenciaNum" label="Numero Documento" placeholder="Numero" icon={User} value={numeroDocumento} required />
+                                    <InputDateField name="licenciaDate" icon={User} label="Fecha Expiracion" required min={min} />
+                                </div>
+                            )}
                         </div>
 
                         <div className="flex justify-center  p-2 my-2 " >
