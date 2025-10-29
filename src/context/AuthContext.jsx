@@ -9,7 +9,6 @@ const USER_PESV = import.meta.env.VITE_ROLE_USER_PESV;
 // Crear el contexto
 const AuthContext = createContext();
 
-
 // Hook para acceder al contexto
 const useAuth = () => {
   const context = useContext(AuthContext);
@@ -19,10 +18,8 @@ const useAuth = () => {
   return context;
 };
 
-
 // Proveedor de autenticación
 const AuthProvider = ({ children }) => {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -45,8 +42,6 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await AuthService.loginUser(user);
       const { data } = response;
-      console.log(data.token)
-
   
       if (data.user.roleId === USER_PESV) {
         setLoginErrors(["Este rol no puede acceder al sistema"])
@@ -68,17 +63,11 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     sessionStorage.clear();
-
     try {
-
     } catch (error) {
       console.log(error.response);
-
     }
-
   }
-
-
 
   useEffect(() => {
     async function checkLogin() {
@@ -97,9 +86,7 @@ const AuthProvider = ({ children }) => {
         if (res.status === 200) {
           const { data } = response;
           setIsAuthenticated(true);
-          console.log(data.data)
           setUser(data.data)
-
         }
         else {
           setUser(null);
@@ -124,8 +111,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-
 export { AuthProvider, useAuth };
-
-
-

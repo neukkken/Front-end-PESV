@@ -15,7 +15,7 @@ import { VehicleCard } from "../../../components/ui/CardVehicule.jsx";
 const GestionUsuarios = () => {
     const { getAllUsers, getUserById, getDocsUserById, downloadDocsAssetId, getUserVehicules, getNotifyByIdUser } = useAdmin();
     const [isOpen, setIsOpen] = useState(false);
-    const [modalContent, setModalContent] = useState('user'); // 'user view' o 'vehicules'
+    const [modalContent, setModalContent] = useState('user');
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -54,7 +54,6 @@ const GestionUsuarios = () => {
         };
 
         getUsers()
-
     };
 
     useEffect(() => {
@@ -158,15 +157,10 @@ const GestionUsuarios = () => {
         }
     }
 
-
     const openHistoryNotify = (id_user) => {
-
-        console.log("OPEN HYTORY");
         setInfoHistoryNotify(true);
         getAdminNotifyByIdUser(id_user);
     }
-
-
 
     return (
         <div className="p-6 ">
@@ -229,8 +223,6 @@ const GestionUsuarios = () => {
                 </div>
             </div>
 
-
-
             {/* Contenedor de Tabla */}
             <div className="w-full p-5 border rounded-xl mb-10">
                 <div className="bg-white rounded-xl overflow-x-auto">
@@ -288,7 +280,7 @@ const GestionUsuarios = () => {
                                                 </Link>
                                                 <button
                                                     title="Ver Usuario"
-                                                    onClick={() => {
+                                                    on                             Click={() => {
                                                         getUserInfoModal(user._id)
                                                     }}
                                                     className="rounded p-1 ">
@@ -317,29 +309,19 @@ const GestionUsuarios = () => {
                                                 </button>
 
                                                 <button
-
                                                     title="Historial de Notificaciones"
                                                     onClick={() => [
-
                                                         openHistoryNotify(user._id)
-
-
                                                     ]}
                                                     className="rounded p-1 ">
-
                                                     <div className="flex">
-                                                        <History className="h-5 w-5 text-gray-600 hover:scale-110 transition-all hover:text-black" />
-
-
+                                                        <History className="h-5 w-5 text-gray-600 hover:scale-110 transition-all hover:text-black" />                   
                                                     </div>
-
-
                                                 </button>
 
                                                 {/* <button
                                                     disabled={!user.active}
                                                     title={user.active ? "Usuario Activo" : "Usuario Inactivo"}
-
                                                     className="rounded p-1 transition-all hover:scale-110"
                                                 >
                                                     {user.active ? (
@@ -348,9 +330,6 @@ const GestionUsuarios = () => {
                                                         <UserX className="h-5 w-5 text-red-500 hover:text-red-700" />
                                                     )}
                                                 </button> */}
-
-
-
                                             </div>
                                         </td>
                                     </tr>
@@ -375,7 +354,6 @@ const GestionUsuarios = () => {
             </div>
 
             {/* //Modal */}
-
             <Modal isOpen={isOpen && modalContent === 'user'} onClose={() => setIsOpen(false)}>
                 <div className="flex flex-col">
                     <div className="bg-primary px-6 py-2 rounded-t-lg">
@@ -422,14 +400,12 @@ const GestionUsuarios = () => {
                                         <span className="text-gray-600">Cargo:</span>
                                         <span className="font-medium text-gray-800">{user.idCargo?.name || ''}</span>
                                     </div>
-
                                 </div>
                             </div>
                         )
                     )}
                 </div>
             </Modal>
-
 
             <Modal isOpen={isOpen && modalContent === 'vehicule'} onClose={() => setIsOpen(false)}>
                 <div className="flex flex-col">
@@ -462,12 +438,7 @@ const GestionUsuarios = () => {
                 </div>
             </Modal>
 
-
-
-
-
             {/* Modal Documents */}
-
             <Modal isOpen={isOpen && modalContent === 'documents'} onClose={() => setIsOpen(false)}>
                 <div className="divide-y divide-gray-200 my-5">
                     {/* Modal Header */}
@@ -513,15 +484,12 @@ const GestionUsuarios = () => {
                                     <div title="Fecha de Expiración" className="flex items-center text-sm text-gray-500">
                                         <Calendar className="mr-1" size={16} />
                                         {doc.fechaExpiracion ? new Date(doc.fechaExpiracion).toLocaleDateString() : "No vence"}
-
                                     </div>
                                     <button
-
                                         onClick={() => {
                                             console.log(doc);
                                             handleDownload(doc.ruta, doc.tipoDocumentoId.nombre)
                                         }}
-
                                         className="text-blue-500 hover:text-blue-600"
                                         title="Descargar Documento"
                                     >
@@ -538,9 +506,6 @@ const GestionUsuarios = () => {
 
             <ModalDocumentsRegister isOpen={modalRegisterDocument} setIsOpen={setModalRegisterDocument} id_user={idUser} />
 
-
-
-
             <Modal isOpen={infoHistoryNotify}
                 onClose={() => {
                     setInfoHistoryNotify(false)
@@ -553,18 +518,12 @@ const GestionUsuarios = () => {
                         <h1 className="text-xl font-bold">Historial de Notificaciones</h1>
                     </div>
 
-
                     {/* Contenido del modal */}
                     <div className="w-full">
                         <div className="h-[400px] overflow-y-auto p-4 space-y-3">
-
-
                             {
-
                                 notifications && notifications.length > 0 ? (
-
                                     notifications.map((notif) => (
-
                                         <div
                                             onClick={() => {
                                                 console.log(notif)
@@ -616,12 +575,8 @@ const GestionUsuarios = () => {
                                 )}
                         </div>
                     </div>
-
-
                 </div>
             </Modal>
-
-
         </div >
     );
 };

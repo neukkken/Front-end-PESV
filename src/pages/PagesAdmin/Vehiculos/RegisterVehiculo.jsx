@@ -14,12 +14,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-
 import { diasPermitidos } from "../../../utils/DiasPermitidosEx.js";
-
-
-
-
 
 const RegisterVehiculo = () => {
     const { zonas, clasesVehiculos, tiposVehiculos, registerAdminVehicule, servicio, uploadDocsVehicule, claseUnidad } = useAdmin();
@@ -28,7 +23,6 @@ const RegisterVehiculo = () => {
     const methods = useForm();
 
     const [requierePlaca, setRequierePlaca] = useState(true);
-
 
     const { min, max } = diasPermitidos(5); // Calcula el rango de fechas permitido
 
@@ -52,7 +46,6 @@ const RegisterVehiculo = () => {
         const loadingToast = toast.loading("Registrando vehículo... 🚗");
         setLoading(true);
 
-
         try {
             const formData = new FormData();
             const dataVehicle = {
@@ -62,7 +55,6 @@ const RegisterVehiculo = () => {
                 modeloVehiculo: data.modeloVehiculo, // Mantén como string
             };
 
-
             if (data.placa?.trim() === "") {
                 delete dataVehicle.placa; // Elimina si está vacío
             }
@@ -70,7 +62,6 @@ const RegisterVehiculo = () => {
             if (data.servicio?.trim() === "") {
                 delete dataVehicle.servicio; // Elimina si está vacío
             }
-
 
             // Registrar el vehículo
             const registerResponse = await registerAdminVehicule(dataVehicle);
@@ -148,8 +139,6 @@ const RegisterVehiculo = () => {
                     };
                 }
 
-
-
                 // Añadir los documentos y archivos al FormData
                 formData.append("idVehiculo", idVehiculo);
                 Object.entries(documentos).forEach(([key, doc]) => {
@@ -158,8 +147,6 @@ const RegisterVehiculo = () => {
                         formData.append(`${key}Doc`, doc.archivo);
                     }
                 });
-
-
 
                 // Subir documentos
                 const res = await uploadDocsVehicule(formData);
@@ -205,8 +192,6 @@ const RegisterVehiculo = () => {
         }
     };
 
-
-
     const handleClaseChange = (e) => {
         console.log(e)
         const idClaseSeleccionada = e;
@@ -216,7 +201,6 @@ const RegisterVehiculo = () => {
             setRequierePlaca(claseSeleccionada.requierePlaca);
             console.log(claseSeleccionada.requierePlaca);
             console.log(claseSeleccionada);
-
 
             if (!claseSeleccionada.requierePlaca) {
                 // Limpiar el campo de placa si no se requiere
@@ -228,10 +212,6 @@ const RegisterVehiculo = () => {
 
         methods.setValue("idClaseVehiculo", idClaseSeleccionada);
     };
-
-
-
-
 
     return (
         <div className="p-6">
@@ -260,16 +240,16 @@ const RegisterVehiculo = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
                             <SelectField
-                                name="claseUnidad"            //La categoria hace referencia a si es un vehiculo o es un equipo
+                                name="claseUnidad"
                                 label="Categoría"
                                 options={claseUnidad}
                                 icon={Car}
-
                                 required
                             />
+
                             <SelectField
                                 name="idClaseVehiculo"
-                                label="Clase"
+                                label="Tipo"
                                 options={clasesVehiculos}
                                 onChange={handleClaseChange}
                                 icon={Car}
@@ -359,11 +339,6 @@ const RegisterVehiculo = () => {
                                 )
                             }
 
-
-
-
-
-
                             <InputNumberField
                                 name="capacidadVehiculo"
                                 label="Capacidad"
@@ -401,8 +376,6 @@ const RegisterVehiculo = () => {
                                 )
                             }
 
-
-
                             <InputTextField
                                 name="color"
                                 label="Color"
@@ -411,10 +384,8 @@ const RegisterVehiculo = () => {
                                 required
                             />
 
-
                             {
                                 requierePlaca && (
-
                                     <InputDateField
                                         name="fechaMatricula"
                                         label="Fecha de Matricula"
@@ -423,35 +394,25 @@ const RegisterVehiculo = () => {
                                     />
                                 )
                             }
-
-
-
-
                         </div>
-
 
                         {/* Documentos */}
                         <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-5">
                             {
                                 requierePlaca && (
                                     <div className="border flex flex-col p-2 gap-3 rounded-lg">
-                                        <InputFile icon={Car} name="tarjetaPropiedadDoc" label="Tarjeta de Propiedad" required={true} />
-                                        <InputTextField name={`tarjetaPropiedadNum`} label="Numero Documento" placeholder="Numero" icon={Car} required={true} />
-
+                                        <InputFile icon={Car} name="tarjetaPropiedadDoc" label="Tarjeta de Propiedad" />
+                                        <InputTextField name={`tarjetaPropiedadNum`} label="Numero Documento" placeholder="Numero" icon={Car} />
                                     </div>
                                 )
                             }
 
-
-
-
-
                             {
                                 requierePlaca && (
                                     <div className="border flex flex-col p-2 gap-3 rounded-lg">
-                                        <InputFile icon={Car} name="soatDoc" label="Soat" required={true} />
-                                        <InputTextField name={`soatNum`} label="Numero Documento" placeholder="Numero" icon={Car} required={true} />
-                                        <InputDateField name="soatDate" icon={Car} label="Fecha Expiracion" required={true} min={min} />
+                                        <InputFile icon={Car} name="soatDoc" label="Soat" />
+                                        <InputTextField name={`soatNum`} label="Numero Documento" placeholder="Numero" icon={Car} />
+                                        <InputDateField name="soatDate" icon={Car} label="Fecha Expiracion" min={min} />
                                     </div>
                                 )
 
@@ -460,22 +421,19 @@ const RegisterVehiculo = () => {
                             {
                                 requierePlaca && (
                                     <div className="border flex flex-col p-2 gap-3 rounded-lg">
-                                        <InputFile icon={Car} name="tecnomecanicaDoc" label="Revisión técnico-mecánica" required={true} />
+                                        <InputFile icon={Car} name="tecnomecanicaDoc" label="Revisión técnico-mecánica" />
                                         <InputTextField name={`tecnomecanicaNum`} label="Numero Documento" placeholder="Numero" icon={Car} requir />
-                                        <InputDateField name="tecnomecanicaDate" label="Fecha Expiracion" icon={Car} required={true} min={min} />
+                                        <InputDateField name="tecnomecanicaDate" label="Fecha Expiracion" icon={Car} min={min} />
                                     </div>
 
                                 )
                             }
-
-
 
                             <div className="border flex flex-col p-2 gap-3 rounded-lg">
                                 <InputFile icon={Car} name="polizaDoc" label="Poliza Todo Riesgo" required={false} />
                                 <InputTextField name={`polizaNum`} label="Numero Documento" placeholder="Numero" icon={Car} required={false} />
                                 <InputDateField name="polizaDate" label="Fecha Expiracion" icon={Car} required={false} min={min} />
                             </div>
-
 
                             {esPublico && (
                                 <div className="border flex flex-col p-2 gap-3 rounded-lg">
@@ -484,12 +442,7 @@ const RegisterVehiculo = () => {
                                     <InputDateField name="revisionBiDate" label="Fecha Expiración" icon={Car} required min={min} />
                                 </div>
                             )}
-
-
-
                         </div>
-
-
 
                         <div className="flex justify-center  p-2 my-2 " >
                             <button
@@ -498,17 +451,12 @@ const RegisterVehiculo = () => {
                             >
                                 Registrar
                             </button>
-
                         </div>
                     </form>
-
                 </FormProvider>
-
             </div>
-
         </div>
     )
-
 }
 
 export default RegisterVehiculo;

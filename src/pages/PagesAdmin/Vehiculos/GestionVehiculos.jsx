@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAdmin } from "../../../context/AdminContext.jsx";
 import { TableSkeleton } from "../../../components/ui/SkeletonTable";
-import { Pencil, Eye, Car, RefreshCcwIcon, Search, X, ChevronDown, ChevronRight, RefreshCw, Plus, File, FileText, Calendar, Download, DownloadCloud, DownloadCloudIcon, User, Cog, ArrowBigRight, Check, ArrowRight, User2 } from "lucide-react";
+import { Pencil, Eye, Car, Search, X, ChevronDown, ChevronRight, RefreshCw, Plus, File, FileText, Calendar, Download, DownloadCloud, DownloadCloudIcon, User, Cog, ArrowBigRight, Check, ArrowRight, User2 } from "lucide-react";
 import { Pagination } from "../../../components/ui/Pagination";
 import { getPaginatedUsers } from "../../../utils/Pagination.js";
 import { Link } from "react-router-dom";
@@ -9,7 +9,6 @@ import Modal from "../../../components/ui/Modal.jsx";
 import { convertirFecha } from "../../../utils/Fecha.js";
 import { SoftLoader } from "../../../components/ui/LoaderSot.jsx";
 import { ModalDocumentsRegister } from "../../../components/ModalDocumentRegister.jsx";
-
 //Download
 import { handleDownload } from "../../../utils/DownloadPdf.js";
 //Toatify
@@ -51,13 +50,11 @@ const GestionVehiculos = () => {
     const [zonaVehiculoFilter, setZonaVehiculoFilter] = useState('');
     const [tiposVehiculoFilter, setTiposVehiculoFilter] = useState('');
 
-
     // 🔹 Función para obtener usuarios
     const getVehiculos = async () => {
         setLoading(true);
         try {
             const storedVehicules = await getAllVehiuculos();
-            console.log(storedVehicules)
             setVehiculos(storedVehicules); // Guardar todos los usuarios en el estado
             const totalUsers = storedVehicules?.length;
             // Calcula el número total de páginas
@@ -92,14 +89,11 @@ const GestionVehiculos = () => {
                 setLoadingModal(false);
                 const vehic = response.data.data;
                 setVehiculo(vehic);
-
             }
 
         } catch (error) {
             console.log(error);
-
         }
-
     }
 
     const getDocsVehiculesModal = async (id_vehiculo) => {
@@ -110,7 +104,6 @@ const GestionVehiculos = () => {
         setModalOpen(true);
         setLoadingModal(true);
         setIdDoc(id_vehiculo)
-
 
         const response = await getDocsVehiuleById(id_vehiculo);
         if (response.status == 200) {
@@ -123,7 +116,6 @@ const GestionVehiculos = () => {
 
     const asignarVehiculo = async (id_vehiculo) => {
         setAsignModal(true);
-
         try {
             const response = await getVehiculeDetail(id_vehiculo);
             if (response.status === 200) {
@@ -131,13 +123,11 @@ const GestionVehiculos = () => {
                 const vehic = response.data.data;
                 setVehiculoAsign(vehic);
             }
-
         } catch (error) {
             console.log(error);
 
         }
     }
-
 
     const handleClearFilters = () => {
         setTextoFilter('');
@@ -146,9 +136,7 @@ const GestionVehiculos = () => {
         setTiposVehiculoFilter('');
     };
     const textoFilterLower = textoFilter.trim().toLowerCase();
-
     const filterVehiuclo = vehiculos?.filter((vehiculo) => {
-
         return (
             (
                 String(vehiculo.placa).toLocaleLowerCase().includes(textoFilterLower) ||
@@ -158,8 +146,6 @@ const GestionVehiculos = () => {
                 String(vehiculo.idUsuario?.name).toLocaleLowerCase().includes(textoFilterLower) ||
                 String(vehiculo.color).toLocaleLowerCase().includes(textoFilterLower) ||
                 String(vehiculo.capacidadVehiculo).toLocaleLowerCase().includes(textoFilterLower)
-
-
             )
         )
     }).filter((vehiculo) => {
@@ -168,14 +154,9 @@ const GestionVehiculos = () => {
     }).filter((vehiculo) => {
         return zonaVehiculoFilter === '' || vehiculo.idZona?._id === zonaVehiculoFilter;
 
-
     }).filter((vehiculo) => {
         return tiposVehiculoFilter === '' || vehiculo.idActividadVehiculo?._id === tiposVehiculoFilter;
-
-
     })
-
-
 
     const textobusquedaUserLower = busquedaUser.trim().toLowerCase();
     const filterUserAsign = usuarios.filter((usuario) => {
@@ -189,9 +170,6 @@ const GestionVehiculos = () => {
             )
         )
     })
-
-
-
 
     return (
         <div className="p-6">
@@ -220,12 +198,9 @@ const GestionVehiculos = () => {
                 </div>
             </div>
 
-
             {/* Filters Card */}
             <div className="bg-white p-4 rounded-lg shadow-xl mt-5">
                 <div className="flex flex-wrap items-center gap-4 justify-between sm:justify-end">
-
-
                     <div className="relative w-full sm:w-auto">
                         <select
                             value={tiposVehiculoFilter}
@@ -306,8 +281,6 @@ const GestionVehiculos = () => {
                 </div>
             </div>
 
-
-
             {/* Contenedor de Tabla */}
             <div className="w-full p-5 border rounded-xl mb-10">
                 <div className="bg-white rounded-xl overflow-x-auto">
@@ -353,9 +326,6 @@ const GestionVehiculos = () => {
                                             )}
                                         </td>
 
-
-
-
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2">
                                                 {vehiculo.estadoVehiculo ? (
@@ -378,8 +348,6 @@ const GestionVehiculos = () => {
                                                 )}
                                             </div>
                                         </td>
-
-
 
                                         <td className="px-6 py-4">
                                             <div className="flex gap-2">
@@ -479,7 +447,6 @@ const GestionVehiculos = () => {
                                         <span className="text-gray-600">Capacidad:</span>
                                         <span className="font-medium text-gray-800">{vehiculo.capacidadVehiculo}</span>
                                     </div>
-
                                     <div className="flex justify-between">
                                         <span className="text-gray-600">
                                             {vehiculo.placa ? "Placa:" : "Código:"}
@@ -544,15 +511,11 @@ const GestionVehiculos = () => {
                             onClick={() => {
                                 setModalOpen(false)
                                 setModalRegisterDocument(true);
-
-
                             }}
                             title="Agregar Docuemento"
                             className="">
                             <Plus className="text-white w-8 h-8 hover:text-secondary hover:scale-150 transition-all  " />
-
                         </div>
-
                     </div>
 
                     {/* Loader o Lista de Documentos */}

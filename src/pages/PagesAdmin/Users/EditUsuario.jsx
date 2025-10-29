@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm, FormProvider } from "react-hook-form";
 import { InputTextField } from "../../../components/ui/InputTextField";
 import { InputNumberField } from "../../../components/ui/InputNumberField";
 import { SelectField } from "../../../components/ui/SelectField";
-import { InputFile } from "../../../components/ui/InputFile";
 import { InputDateField } from "../../../components/ui/InputDateField";
 import { User, ArrowLeft, ChevronRight, Car } from "lucide-react";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -38,7 +37,6 @@ const EditUsuario = () => {
                 });
 
                 const user = res.data.data;
-                console.log(user)
                 const formattedDate = user.fechaNacimiento
                     ? new Date(user.fechaNacimiento).toISOString().split("T")[0]
                     : "";
@@ -108,9 +106,7 @@ const EditUsuario = () => {
 
         try {
             const res = await updateInfoUser(id, cambios);
-
             if (res.status === 200) {
-
                 getAllUsers();
                 toast.update(loadingUpToast, {
                     render: res.data.message || "Usuario actualizado correctamente ✅",
@@ -133,12 +129,8 @@ const EditUsuario = () => {
                 autoClose: 1500
             });
         }
-
         console.log("Datos a actualizar:", cambios);
     };
-
-
-
 
     return (
         <div className="p-6">
@@ -191,13 +183,11 @@ const EditUsuario = () => {
                                 label="Cargo"
                                 options={cargos}
                                 icon={User}
-
                             />
                             <InputDateField
                                 name="fechaNacimiento"
                                 label="Fecha de Nacimiento"
                                 icon={User}
-
                             />
                             <InputTextField
                                 name="telefono"

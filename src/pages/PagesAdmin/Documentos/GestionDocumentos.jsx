@@ -1,5 +1,4 @@
-import { Pencil, FileWarning, ArrowLeft, ChevronRight, Download, TriangleAlert, Bell, Car, User, Shield, DockIcon, Dock, File, Database, Calendar } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ChevronRight, Bell, Car, User, Shield, File, Calendar } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAdmin } from "../../../context/AdminContext";
 import { convertirFecha } from "../../../utils/Fecha.js";
@@ -8,21 +7,18 @@ import { useForm, FormProvider } from "react-hook-form";
 import { InputTextArea } from "../../../components/ui/InputTextArea.jsx";
 import { InputFile } from "../../../components/ui/InputFile.jsx";
 import { InputDateField } from "../../../components/ui/InputDateField.jsx";
-
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { handleDownload } from "../../../utils/DownloadPdf.js";
 import { SkeletonDocsInfo } from "../../../components/ui/SkeletorDocs.jsx";
 import { diasPermitidos } from "../../../utils/DiasPermitidosEx.js";
 import { InputTextField } from "../../../components/ui/InputTextField.jsx";
-
+import "react-toastify/dist/ReactToastify.css";
 
 const GestionDocumentos = () => {
     const methods = useForm();
     const methodsUpdate = useForm();
     const [originalData, setOriginalData] = useState(null);
     const { setValue } = methodsUpdate;
-
     const { getDocuemntsPorExpirarYExpirados, registerNewNotify, getVehicleDocuemntById, getUserDocuemntById, updateVehicleDoc, updateUserDoc } = useAdmin();
     const [loading, setLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -33,20 +29,12 @@ const GestionDocumentos = () => {
     const { min, max } = diasPermitidos(1); // Calcula el rango de fechas permitido
     const [documentNotify, setDocumentNotify] = useState('');
     const limit = 5;
-
-
-
     const [searchTerm, setSearchTerm] = useState("")
-
     const [modalUserinfo, setModalUserInfo] = useState(false);
     const [modalVehicleinfo, setModalVehicleinfo] = useState(false);
-
     const [selected, setSelected] = useState(null)
     const [activeTab, setActiveTab] = useState("vehicles");
-
     const [modalUpdate, setModalUpdate] = useState(false);
-
-
 
     // Filtrar vehículos o usuarios según el término de búsqueda
     const filteredItems =
@@ -61,10 +49,6 @@ const GestionDocumentos = () => {
                 (user.documentId || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
                 (user.email || "").toLowerCase().includes(searchTerm.toLowerCase())
             );
-
-
-
-
     // Obtener la clase de color según el estado
     const getStatusClass = (status) => {
         switch (status) {
@@ -80,7 +64,6 @@ const GestionDocumentos = () => {
                 return "bg-gray-500 text-white"; // Estado desconocido
         }
     };
-
 
     // Obtener el texto del estado
     const getStatusText = (status) => {
@@ -98,15 +81,10 @@ const GestionDocumentos = () => {
         }
     };
 
-
-
-
     const getDocuemnts = async () => {
         setLoading(true);
         try {
             const docsResponse = await getDocuemntsPorExpirarYExpirados();
-
-            console.log(docsResponse)
 
             if (docsResponse.status === 200 && docsResponse.data.success) {
                 const data = docsResponse.data.data;
@@ -116,8 +94,6 @@ const GestionDocumentos = () => {
 
                 setTotalProxVencer(totalVehicleDocuments || 0)
                 setTotalProxVencerUser(totalUserDocuments || 0)
-
-
 
                 setUsers(users)
                 setVehicules(vehicles)
@@ -135,29 +111,18 @@ const GestionDocumentos = () => {
     }, [originalData])
 
     const generateNewNotify = async (doc) => {
-
         setIsOpen(true);
         setDocumentNotify(doc.idUsuario);
-
-
-
     }
 
     // Open vehicle document details dialog
     const openUserDetails = (det) => {
-
         setSelected(det)
         setModalUserInfo(true)
-
-
     }
 
     const getVehiculoDocId = async () => {
-
-
     }
-
-
 
     const openVehicleDetails = async (detail) => {
         setSelected(detail)
@@ -165,7 +130,6 @@ const GestionDocumentos = () => {
 
     }
     const [selectedFileName, setSelectedFileName] = useState(""); // Estado para el nombre del archivo
-
 
     const onSubmit = async (data) => {
         console.log(data)
@@ -185,7 +149,6 @@ const GestionDocumentos = () => {
 
         const newData = { ...data, tipoNotificacion, idUsuario: documentNotify, enviadoA: 'usuario', fechaExpiracion: obtenerFechaExpiracionDias() }
 
-
         const res = await registerNewNotify(newData);
         if (res.status === 200 && res.data.success) {
             toast.update(loadingUpToast, {
@@ -197,10 +160,8 @@ const GestionDocumentos = () => {
                     setDocumentNotify(" ");
                     setIsOpen(false);
                     methods.reset()
-
                 }
             });
-
         }
         else {
             toast.update(loadingUpToast, {
@@ -215,8 +176,6 @@ const GestionDocumentos = () => {
                 }
             });
         }
-
-
     };
 
     const onSubmitForm2 = async (data) => {
@@ -288,8 +247,6 @@ const GestionDocumentos = () => {
         }
     };
 
-
-
     const callUpdateVehiculeDoc = async (id_doc) => {
         setTypeUpdate("docVehicle");
         const resDoc = await getVehicleDocuemntById(id_doc);
@@ -342,15 +299,6 @@ const GestionDocumentos = () => {
             setModalUpdate(true);
         }
     };
-
-
-
-
-
-
-
-
-
 
     return (
         <div className="p-6">
@@ -480,24 +428,11 @@ const GestionDocumentos = () => {
                 )}
             </div>
 
-
-
-
-
-
-
-
-
-
             {/* Modal de notifica */}
-
-
             <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <div className="divide-y divide-gray-200 my-5 ">
-
                     <div className="">
                         <h2 className="text-2xl font-bold my-3">Enviar Notificación</h2>
-
                         <FormProvider {...methods}>
                             <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
                                 <div className="flex gap-2">
@@ -531,22 +466,12 @@ const GestionDocumentos = () => {
                                     </button>
                                 </div>
                             </form>
-
                         </FormProvider>
-
                     </div>
-
-
-
-
                 </div>
             </Modal>
 
-
-
             {/* <Modal isOpen={info} onClose={() => setInfo(false)}> */}
-
-
             <Modal isOpen={modalVehicleinfo} onClose={() => setModalVehicleinfo(false)}>
                 <div className="max-w-3xl">
                     {selected && (
@@ -591,9 +516,7 @@ const GestionDocumentos = () => {
                                                 </div>
                                                 <div className="flex justify-end space-x-2">
                                                     <div
-
                                                         onClick={() => {
-
                                                             handleDownload(doc.ruta, doc.name.nombre || "PesvDocuemt")
                                                         }}
                                                         className="cursor-progress px-3 py-1.5 bg-white border border-gray-300 rounded text-sm font-medium hover:bg-blue-100"
@@ -602,11 +525,7 @@ const GestionDocumentos = () => {
                                                     </div>
                                                     <button
                                                         onClick={async () => {
-
                                                             callUpdateVehiculeDoc(doc.id)
-
-
-
                                                         }}
                                                         className="px-3 py-1.5 bg-black text-white rounded text-sm font-medium hover:bg-gray-800 ">
                                                         Actualizar
@@ -748,9 +667,6 @@ const GestionDocumentos = () => {
                                     <InputFile
                                         icon={Car}
                                         name="file"
-
-
-
                                     />
 
                                 </div>
@@ -767,7 +683,6 @@ const GestionDocumentos = () => {
 
                                 <button
                                     type="submit"
-
                                     className="px-3 py-1.5 bg-blue-500 text-white rounded text-sm font-medium hover:bg-blue-600"
                                 >
                                     Guardar
@@ -777,9 +692,6 @@ const GestionDocumentos = () => {
                     </FormProvider>
                 </div>
             </Modal>
-
-
-
         </div>
     );
 };
