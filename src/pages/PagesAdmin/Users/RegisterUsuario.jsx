@@ -227,15 +227,15 @@ const RegisterUsuario = () => {
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 my-5">
                             <div className="border flex flex-col p-2 gap-3 rounded-lg">
-                                <InputFile icon={User} name="documentoDoc" label="Cédula de Ciudadanía" required={true} />
+                                <InputFile icon={User} name="documentoDoc" label="Cédula de Ciudadanía" />
                                 <InputTextField name={`documentoNum`} label="Numero Documento" placeholder="Numero" icon={User} required={true} value={numeroDocumento} />
                             </div>
 
                             {tipoLicenciaSeleccionada !== "N/A" && (
                                 <div className="border flex flex-col p-2 gap-3 rounded-lg">
-                                    <InputFile icon={User} name="licenciaDoc" label="Licencia de conducir" required />
+                                    <InputFile icon={User} name="licenciaDoc" label="Licencia de conducir" />
                                     <InputTextField name="licenciaNum" label="Numero Documento" placeholder="Numero" icon={User} value={numeroDocumento} required />
-                                    <InputDateField name="licenciaDate" icon={User} label="Fecha Expiracion" required min={min} />
+                                    <InputDateField name="licenciaDate" icon={User} label="Fecha Expiracion" min={min} />
                                 </div>
                             )}
                         </div>
